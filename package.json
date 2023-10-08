@@ -34,6 +34,7 @@
     "es",
     "dist",
     "lib",
+    "types",
     "README.md"
   ],
   "keywords": [
