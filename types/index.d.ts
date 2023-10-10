@@ -1,3 +1,5 @@
+export declare function humpToHyphen(key: string): string;
+export declare function hyphenToHump(name: string): string;
 export declare function getScrollBarSize(target: Element | boolean): {
     width: number;
     height: number;

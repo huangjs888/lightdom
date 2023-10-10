@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-02-13 15:22:58
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-08 09:44:53
+ * @LastEditTime: 2023-10-10 14:37:12
  * @Description: ******
  */
 
@@ -43,6 +43,17 @@ function ensureSize(str: string) {
   const value = Number(match?.[1]);
   return Number.isNaN(value) ? measureScrollBarSize() : value;
 }
+
+// 驼峰转连字符
+export function humpToHyphen(key: string) {
+  return key.replace(/([A-Z])/g, '-$1').toLocaleLowerCase();
+}
+// 转连字符转驼峰
+export function hyphenToHump(name: string) {
+  return name.replace(/-(.?)/g, (t) => t.replace('-', '').toLocaleUpperCase());
+}
+
+// 获取滚动条宽度
 export function getScrollBarSize(target: Element | boolean) {
   if (typeof target === 'boolean') {
     const size = measureScrollBarSize(target);
@@ -61,6 +72,7 @@ export function getScrollBarSize(target: Element | boolean) {
   };
 }
 
+// 检查是否处于overflow
 export function isBodyOverflowing() {
   return (
     document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight) &&
@@ -68,6 +80,7 @@ export function isBodyOverflowing() {
   );
 }
 
+// 将css注入head
 export function cssInject(id: string, cssText: string) {
   let style = document.querySelector(`#${id}`);
   if (!style) {
@@ -78,6 +91,7 @@ export function cssInject(id: string, cssText: string) {
   }
 }
 
+// 设置css
 export type ICSSStyle = { [key: string]: string | number | undefined };
 const autoPxReg =
   /^(?:-border(?:-top|-right|-bottom|-left)?(?:-width|)|(?:-margin|-padding)?(?:-top|-right|-bottom|-left)?|(?:-min|-max)?(?:-width|-height))$/;
@@ -85,10 +99,7 @@ export function setStyle(el?: Element | null, style?: ICSSStyle) {
   if (el && style) {
     let cssText = '';
     Object.keys(style).forEach((key: string) => {
-      // 转连字符
-      const name = key.replace(/([A-Z])/g, '-$1').toLocaleLowerCase();
-      // 转驼峰
-      // const key = name.replace(/-(.?)/g, (t) => t.replace('-', '').toLocaleUpperCase());
+      const name = humpToHyphen(key);
       const value = style[key];
       if (value || value === 0) {
         const suffix =
@@ -178,8 +189,9 @@ export function createElement(
   ) as Element;
   const _attrs = _props.attrs || {};
   Object.keys(_attrs).forEach((key) => {
-    if (key !== 'innerHTML' && key !== 'className' && key !== 'style' && key in element) {
-      (element as any)[key] = _attrs[key];
+    const _key = humpToHyphen(key);
+    if (key !== 'innerHTML' && key !== 'className' && key !== 'style' && _key in element) {
+      (element as any)[_key] = _attrs[key];
     }
   });
   _children.forEach((child) => {

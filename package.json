@@ -1,7 +1,7 @@
 {
   "name": "@huangjs888/lightdom",
   "version": "2.1.2",
-  "description": "Light Dom Operate",
+  "description": "Light dom operate",
   "types": "./types/index.d.ts",
   "module": "./es/lightdom.min.js",
   "main": "./lib/lightdom.min.js",
