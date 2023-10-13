@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-02-13 15:22:58
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-12 15:39:52
+ * @LastEditTime: 2023-10-13 14:28:33
  * @Description: ******
  */
 
@@ -200,11 +200,6 @@ export function createElement(
       element.innerHTML = String(child);
     }
   });
-  const tp = getElement(_parent);
-  if (tp) {
-    tp.innerHTML = '';
-    tp.appendChild(element);
-  }
-
+  getElement(_parent)?.appendChild(element);
   return element;
 }
