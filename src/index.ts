@@ -2,7 +2,7 @@
  * @Author: Huangjs
  * @Date: 2023-02-13 15:22:58
  * @LastEditors: Huangjs
- * @LastEditTime: 2023-10-10 14:37:12
+ * @LastEditTime: 2023-10-12 15:39:52
  * @Description: ******
  */
 
@@ -189,9 +189,8 @@ export function createElement(
   ) as Element;
   const _attrs = _props.attrs || {};
   Object.keys(_attrs).forEach((key) => {
-    const _key = humpToHyphen(key);
-    if (key !== 'innerHTML' && key !== 'className' && key !== 'style' && _key in element) {
-      (element as any)[_key] = _attrs[key];
+    if (key !== 'innerHTML' && key !== 'className' && key !== 'style') {
+      element.setAttribute(humpToHyphen(key), _attrs[key]);
     }
   });
   _children.forEach((child) => {
@@ -201,6 +200,11 @@ export function createElement(
       element.innerHTML = String(child);
     }
   });
-  getElement(_parent)?.appendChild(element);
+  const tp = getElement(_parent);
+  if (tp) {
+    tp.innerHTML = '';
+    tp.appendChild(element);
+  }
+
   return element;
 }
